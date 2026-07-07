@@ -12,6 +12,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://unpkg.com/@barba/core"></script>
+    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.82/build/spline-viewer.js"></script>
 
     <style>
         /* =============================================
@@ -318,17 +319,77 @@
         .transition-overlay .slice:nth-child(5) { top: 80%; }
 
         /* =============================================
-           12. RESPONSIVE
+           12. 3D AVATAR HERO
+           ============================================= */
+        .avatar-hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 2rem;
+            min-height: 420px;
+            margin-bottom: 2rem;
+        }
+
+        .avatar-hero-text {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .avatar-3d-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            border-radius: 20px;
+            overflow: hidden;
+            background: radial-gradient(ellipse at center, rgba(162, 75, 207, 0.15) 0%, transparent 70%);
+        }
+
+        .avatar-3d-container spline-viewer {
+            width: 100%;
+            height: 100%;
+            border: none;
+            --logo-color: transparent; /* hide spline logo */
+        }
+
+        .avatar-3d-fallback {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 1rem;
+            z-index: -1;
+        }
+
+        .avatar-3d-fallback img {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid rgba(255,255,255,0.1);
+            box-shadow: 0 0 60px rgba(162, 75, 207, 0.3);
+        }
+
+        /* =============================================
+           13. RESPONSIVE
            ============================================= */
         @media (max-width: 768px) {
             .site-nav { padding: 1rem 1.5rem; }
             .page-content { padding: 2rem 1.5rem; }
             .scaling-card { transform: scale(0.92); border-radius: 16px; }
             .inner-card { padding: 1.5rem; }
+            .avatar-hero {
+                grid-template-columns: 1fr;
+                min-height: auto;
+            }
+            .avatar-3d-container { height: 300px; }
         }
 
         @media (max-width: 480px) {
             .nav-links a { padding: 0.4rem 0.6rem; font-size: 0.8rem; }
+            .avatar-3d-container { height: 250px; }
         }
     </style>
 </head>
