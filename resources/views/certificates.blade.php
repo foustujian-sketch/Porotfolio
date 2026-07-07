@@ -1,23 +1,42 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1 style="font-size: clamp(3rem, 6vw, 5rem); letter-spacing: 0.1em; text-transform: uppercase; font-weight: 900; margin-bottom: 2rem;">Certs</h1>
-    
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem;">
-        
-        <div class="card">
-            <h3 style="font-size: 1.25rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1.5rem;">INFORSA Certification</h3>
-            <div style="border-radius: 8px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-                <img src="/images/certs/cert-inforsa.png" alt="INFORSA Certificate" style="width: 100%; height: auto; display: block;">
+
+    <section class="reveal" style="margin-bottom: 3rem;">
+        <h1 class="heading-xl">
+            <span class="heading-gradient">Credentials</span>
+        </h1>
+        <p class="text-muted mt-2" style="max-width: 500px;">
+            Verified certifications and institutional achievements.
+        </p>
+    </section>
+
+    <div class="grid-2">
+
+        <div class="inner-card reveal">
+            <div class="card-content">
+                <div class="flex items-center gap-2" style="margin-bottom: 1.25rem;">
+                    <h3 style="color: #fff; font-weight: 600; font-size: 1.1rem;">INFORSA Committee</h3>
+                    <span class="pill">Certificate</span>
+                </div>
+                <div style="border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.06);">
+                    <img src="/images/certs/cert-inforsa.png" alt="INFORSA Certificate" style="width: 100%; height: auto; display: block;">
+                </div>
             </div>
         </div>
 
-        <div class="card">
-            <h3 style="font-size: 1.25rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1.5rem;">Professional Achievement</h3>
-            <div style="border-radius: 8px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-                <img src="/images/certs/download.png" alt="Certificate" style="width: 100%; height: auto; display: block;">
+        <div class="inner-card reveal">
+            <div class="card-content">
+                <div class="flex items-center gap-2" style="margin-bottom: 1.25rem;">
+                    <h3 style="color: #fff; font-weight: 600; font-size: 1.1rem;">Professional Achievement</h3>
+                    <span class="pill">Certificate</span>
+                </div>
+                <div style="border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.06);">
+                    <img src="/images/certs/download.png" alt="Certificate" style="width: 100%; height: auto; display: block;">
+                </div>
             </div>
         </div>
 
     </div>
+
 @endsection
