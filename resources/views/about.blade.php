@@ -1,12 +1,24 @@
 @extends('layouts.app')
 
 @section('content')
-    <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 4rem;">
-        <div style="display: inline-block; padding: 0.5rem 1rem; background: rgba(66, 165, 245, 0.1); border: 1px solid var(--accent-blue); color: var(--accent-cyan); border-radius: 20px; font-weight: 500; font-size: 0.9rem; width: fit-content; margin-bottom: 1rem; letter-spacing: 1px;">
-            DART &amp; FLUTTER SPECIALIST
+    <!-- High-End Interactive 3D Avatar Section -->
+    <div style="display: flex; align-items: center; gap: 3rem; margin-bottom: 5rem; flex-wrap: wrap;">
+        
+        <!-- Spline 3D Viewer -->
+        <!-- Replace the URL in the 'url' attribute with your own custom Spline 3D character scene -->
+        <div style="width: 300px; height: 350px; border-radius: 20px; overflow: hidden; border: 1px solid var(--border-color); box-shadow: 0 10px 40px rgba(0, 229, 255, 0.15); background: var(--bg-panel); position: relative;">
+            <spline-viewer url="https://prod.spline.design/6Wq1Q7YGyM-iab9i/scene.splinecode"></spline-viewer>
         </div>
-        <h1>Software Engineer</h1>
-        <p style="font-size: 1.25rem; max-width: 800px; color: var(--text-primary);">I engineer highly fluid, cross-platform applications and robust backend systems. Based in Indonesia, specializing in Dart, Flutter, Laravel, and scalable API architecture.</p>
+
+        <div style="flex: 1; min-width: 300px;">
+            <div style="display: inline-block; padding: 0.5rem 1rem; background: rgba(66, 165, 245, 0.1); border: 1px solid var(--accent-blue); color: var(--accent-cyan); border-radius: 20px; font-weight: 500; font-size: 0.9rem; width: fit-content; margin-bottom: 1rem; letter-spacing: 1px;">
+                DART &amp; FLUTTER SPECIALIST
+            </div>
+            <h1 style="border-left: none; padding-left: 0;">Software Engineer</h1>
+            <p style="font-size: 1.25rem; max-width: 800px; color: var(--text-primary); line-height: 1.7;">
+                I engineer highly fluid, cross-platform applications and robust backend systems. Based in Indonesia, specializing in Dart, Flutter, Laravel, and scalable API architecture.
+            </p>
+        </div>
     </div>
 
     <h2>Professional Experience</h2>

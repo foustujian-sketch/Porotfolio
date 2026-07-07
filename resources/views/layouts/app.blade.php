@@ -14,6 +14,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://unpkg.com/@barba/core"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+    
+    <!-- Spline 3D Viewer Web Component -->
+    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.9/build/spline-viewer.js"></script>
 
     <style>
         :root {
@@ -117,31 +120,6 @@
         
         /* Grid Layouts */
         .grid-layout { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2rem; }
-
-        /* Interactive Tracking Avatar */
-        #interactive-avatar-wrapper {
-            position: fixed;
-            bottom: 40px;
-            right: 40px;
-            width: 110px;
-            height: 110px;
-            border-radius: 50%;
-            border: 3px solid var(--accent-cyan);
-            overflow: hidden;
-            box-shadow: 0 0 25px rgba(0, 229, 255, 0.4);
-            z-index: 1000;
-            background: #000;
-        }
-        
-        #interactive-avatar-img {
-            width: 140%;
-            height: 140%;
-            object-fit: cover;
-            position: absolute;
-            top: -20%;
-            left: -20%;
-            transition: transform 0.1s ease-out;
-        }
     </style>
 </head>
 <body data-barba="wrapper">
@@ -164,43 +142,7 @@
         </div>
     </main>
 
-    <!-- Tracking Avatar Widget -->
-    <div id="interactive-avatar-wrapper" title="I'm watching your cursor!">
-        <img src="/images/avatar.png" id="interactive-avatar-img" alt="Tracking Avatar">
-    </div>
-
     <script>
-        // Avatar Tracking Logic
-        const avatarImg = document.getElementById('interactive-avatar-img');
-        const wrapper = document.getElementById('interactive-avatar-wrapper');
-        
-        document.addEventListener('mousemove', (e) => {
-            const mouseX = e.clientX;
-            const mouseY = e.clientY;
-            const rect = wrapper.getBoundingClientRect();
-            
-            // Center of the avatar wrapper
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
-            
-            // Calculate angle and distance to cursor
-            const deltaX = mouseX - centerX;
-            const deltaY = mouseY - centerY;
-            
-            // Max distance the image can translate within the circle
-            const maxTranslation = 20; 
-            
-            // Calculate movement (normalize based on screen size so it doesn't snap instantly)
-            const moveX = (deltaX / window.innerWidth) * maxTranslation * 2;
-            const moveY = (deltaY / window.innerHeight) * maxTranslation * 2;
-            
-            // Clamp values
-            const clampedX = Math.max(-maxTranslation, Math.min(maxTranslation, moveX));
-            const clampedY = Math.max(-maxTranslation, Math.min(maxTranslation, moveY));
-            
-            avatarImg.style.transform = `translate(${clampedX}px, ${clampedY}px)`;
-        });
-
         // Initialize Vanilla Tilt
         function initTilt() {
             VanillaTilt.init(document.querySelectorAll("[data-tilt]"), {
@@ -222,7 +164,6 @@
                         { scaleX: 1, duration: 0.6, ease: 'power4.inOut' }
                     );
                     
-                    // Tell Barba we are done animating, safe to swap DOM
                     done();
                 },
                 enter(data) {
