@@ -17,7 +17,7 @@
             height: 100%;
             margin: 0;
             padding: 0;
-            background-color: #212121; /* Dark theme default */
+            background-color: #212121;
         }
 
         body {
@@ -84,7 +84,6 @@
             letter-spacing: 0.2em;
         }
 
-        /* The Card Container (Barba wrapper applies the scale) */
         .page-container {
             flex-grow: 1;
             padding: 2rem 4vw 6rem 4vw;
@@ -92,30 +91,29 @@
             margin: 0 auto;
             width: 100%;
             
-            /* Scaling CSS Transition */
             transition: transform 1.25s cubic-bezier(0.215, 0.61, 0.355, 1), opacity 1.25s cubic-bezier(0.215, 0.61, 0.355, 1);
             transform: translate3d(0, 0, 0) scale(0.5);
             opacity: 0;
             will-change: transform, opacity;
         }
 
-        /* When active, scale to 1 */
         .is-open .page-container {
             transform: scale(1);
             opacity: 1;
         }
 
-        /* Inner Cards (Applying the mix-blend-mode hover from user CSS) */
+        /* Inner Cards */
         .card {
             background-color: #212121;
             color: #fff;
             padding: 2.5rem;
             border-radius: 12px;
-            transition: box-shadow 0.5s ease, filter 0.5s ease, opacity 0.5s ease;
+            transition: box-shadow 0.5s ease, filter 0.5s ease, opacity 0.5s ease, transform 0.1s linear;
             position: relative;
             z-index: 400;
             margin-bottom: 2rem;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transform-style: preserve-3d;
         }
 
         .card:hover {
@@ -126,26 +124,34 @@
             cursor: pointer;
         }
 
-        h1, h2, h3 { margin-top: 0; }
-        p { line-height: 1.7; color: #ddd; }
+        .card-title-wrap {
+            transition: transform 0.1s linear;
+            pointer-events: none;
+        }
 
-        /* Buttons matching the user CSS */
+        h1, h2, h3 { margin-top: 0; }
+        p { line-height: 1.7; color: #ddd; pointer-events: none; }
+
+        /* The specific Button styling from the user */
         .btn {
             display: inline-block;
             transition: all .25s ease-in-out;
             border: 0;
-            background-color: #000;
+            background-color: black;
             padding: 12px 24px;
             color: white;
             font-size: 14px;
             text-transform: uppercase;
             letter-spacing: 0.2em;
             mix-blend-mode: overlay;
-            box-shadow: 0 0 25px rgba(0,0,0,0.8) 0 4px 12px rgba(0,0,0,0.9);
+            box-shadow: 0 0 25px rgba(0,0,0,0.8), 0 4px 12px rgba(0,0,0,0.9);
+            will-change: transform;
             cursor: pointer;
+            z-index: 900;
             text-decoration: none;
+            pointer-events: auto;
         }
-
+        
         .btn:hover {
             background-color: white;
             mix-blend-mode: normal;
@@ -178,8 +184,41 @@
         window.addEventListener('DOMContentLoaded', () => {
             requestAnimationFrame(() => {
                 document.body.classList.add('is-open');
+                initParallax();
             });
         });
+
+        function initParallax() {
+            document.querySelectorAll('.card').forEach(card => {
+                // Parallax 3D Hover Effect from user's JS
+                card.addEventListener('mousemove', function(e) {
+                    var rect = this.getBoundingClientRect();
+                    var halfW = rect.width / 2;
+                    var halfH = rect.height / 2;
+
+                    var coorX = (halfW - (e.clientX - rect.left));
+                    var coorY = (halfH - (e.clientY - rect.top));
+
+                    var degX  = ( ( coorY / halfH ) * 10 ) + 'deg'; 
+                    var degY  = ( ( coorX / halfW ) * -10 ) + 'deg'; 
+
+                    this.style.transform = 'perspective(1600px) translate3d(0, 0px, 0) scale(1.02) rotateX('+ degX +') rotateY('+ degY +')';
+                    
+                    var titleWrap = this.querySelector('.card-title-wrap');
+                    if (titleWrap) {
+                        titleWrap.style.transform = 'perspective(1600px) translate3d(0, 0, 80px) rotateX('+ degX +') rotateY('+ degY +')';
+                    }
+                });
+
+                card.addEventListener('mouseout', function(e) {
+                    this.style.transform = '';
+                    var titleWrap = this.querySelector('.card-title-wrap');
+                    if (titleWrap) {
+                        titleWrap.style.transform = '';
+                    }
+                });
+            });
+        }
 
         // Barba.js with Scaling CSS Transition
         barba.init({
@@ -187,17 +226,10 @@
                 name: 'scale-transition',
                 async leave(data) {
                     const done = this.async();
-                    
-                    // Remove is-open to trigger the scale(0.5) transition
                     document.body.classList.remove('is-open');
-                    
-                    // Wait for CSS transition to finish (1.25s)
-                    setTimeout(() => {
-                        done();
-                    }, 1250);
+                    setTimeout(() => { done(); }, 1250);
                 },
                 enter(data) {
-                    // Update active nav link
                     document.querySelectorAll('.nav-links a').forEach(a => {
                         a.classList.remove('active');
                         let href = a.getAttribute('href');
@@ -207,9 +239,9 @@
                         }
                     });
 
-                    // Wait a tiny bit for DOM to settle, then add is-open to scale up
                     setTimeout(() => {
                         document.body.classList.add('is-open');
+                        initParallax();
                     }, 50);
                 }
             }]
